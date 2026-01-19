@@ -1,0 +1,365 @@
+
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Antrian SPMB - SMA Negeri 1 Magetan</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <div>
+                    <h1>Sistem Antrian SPMB</h1>
+                    <h2>SMA Negeri 1 Magetan</h2>
+                </div>
+            </div>
+            <div class="current-time">
+                <i class="fas fa-clock"></i>
+                <span id="time">00:00:00</span>
+            </div>
+        </header>
+
+        <main>
+            <section class="control-panel">
+                <h2><i class="fas fa-cogs"></i> Panel Kontrol</h2>
+                
+                <div class="antrian-control">
+                    <h3>Pengaturan Antrian</h3>
+                    <div class="input-group">
+                        <label for="current-antrian">Nomor Antrian Saat Ini</label>
+                        <div class="input-with-buttons">
+                            <input type="number" id="current-antrian" value="1" min="1">
+                            <div class="button-group">
+                                <button id="decrease-antrian" class="btn-small"><i class="fas fa-minus"></i></button>
+                                <button id="increase-antrian" class="btn-small"><i class="fas fa-plus"></i></button>
+                                <button id="reset-antrian" class="btn-small"><i class="fas fa-redo"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="operator-select">Operator Tujuan</label>
+                        <select id="operator-select">
+                            <option value="1">Operator 1 - Pendaftaran</option>
+                            <option value="2">Operator 2 - Dokumen</option>
+                            <option value="3">Operator 3 - Wawancara</option>
+                            <option value="4">Operator 4 - Psikotes</option>
+                            <option value="5">Operator 5 - Kesehatan</option>
+                            <option value="6">Operator 6 - Pembayaran</option>
+                            <option value="7">Operator 7 - Pengumuman</option>
+                            <option value="8">Operator 8 - Bantuan</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-buttons">
+                        <button id="panggil-antrian" class="btn-primary">
+                            <i class="fas fa-bullhorn"></i> Panggil Antrian
+                        </button>
+                        <button id="ulangi-panggilan" class="btn-secondary">
+                            <i class="fas fa-redo"></i> Ulangi Panggilan
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="antrian-display">
+                    <h3>Antrian Saat Ini</h3>
+                    <div class="display-box">
+                        <div class="antrian-number">
+                            <span id="display-antrian">001</span>
+                        </div>
+                        <div class="antrian-info">
+                            <p>Menuju: <span id="display-operator">Operator 1 - Pendaftaran</span></p>
+                            <p>Waktu: <span id="display-time">-</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="antrian-history">
+                        <h4>Riwayat Panggilan Terakhir</h4>
+                        <div id="history-list">
+                            <!-- Riwayat akan ditampilkan di sini -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="operator-panel">
+                <h2><i class="fas fa-users"></i> Daftar Operator</h2>
+                <div class="operator-grid">
+                    <!-- Operator akan di-generate oleh JavaScript -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>SMA Negeri 1 Magetan &copy; 2023 | Sistem Antrian SPMB</p>
+            <p class="info">Tekan <strong>Panggil Antrian</strong> untuk memanggil nomor antrian berikutnya</p>
+        </footer>
+    </div>
+
+    <!-- Audio untuk panggilan suara -->
+    <audio id="audio-panggilan" preload="auto">
+        <source src="" type="audio/mp3">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Antrian SPMB - SMA Negeri 1 Magetan</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <div>
+                    <h1>Sistem Antrian SPMB</h1>
+                    <h2>SMA Negeri 1 Magetan</h2>
+                </div>
+            </div>
+            <div class="current-time">
+                <i class="fas fa-clock"></i>
+                <span id="time">00:00:00</span>
+            </div>
+        </header>
+
+        <main>
+            <section class="control-panel">
+                <h2><i class="fas fa-cogs"></i> Panel Kontrol</h2>
+                
+                <div class="antrian-control">
+                    <h3>Pengaturan Antrian</h3>
+                    <div class="input-group">
+                        <label for="current-antrian">Nomor Antrian Saat Ini</label>
+                        <div class="input-with-buttons">
+                            <input type="number" id="current-antrian" value="1" min="1">
+                            <div class="button-group">
+                                <button id="decrease-antrian" class="btn-small"><i class="fas fa-minus"></i></button>
+                                <button id="increase-antrian" class="btn-small"><i class="fas fa-plus"></i></button>
+                                <button id="reset-antrian" class="btn-small"><i class="fas fa-redo"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="operator-select">Operator Tujuan</label>
+                        <select id="operator-select">
+                            <option value="1">Operator 1 - Pendaftaran</option>
+                            <option value="2">Operator 2 - Dokumen</option>
+                            <option value="3">Operator 3 - Wawancara</option>
+                            <option value="4">Operator 4 - Psikotes</option>
+                            <option value="5">Operator 5 - Kesehatan</option>
+                            <option value="6">Operator 6 - Pembayaran</option>
+                            <option value="7">Operator 7 - Pengumuman</option>
+                            <option value="8">Operator 8 - Bantuan</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-buttons">
+                        <button id="panggil-antrian" class="btn-primary">
+                            <i class="fas fa-bullhorn"></i> Panggil Antrian
+                        </button>
+                        <button id="ulangi-panggilan" class="btn-secondary">
+                            <i class="fas fa-redo"></i> Ulangi Panggilan
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="antrian-display">
+                    <h3>Antrian Saat Ini</h3>
+                    <div class="display-box">
+                        <div class="antrian-number">
+                            <div class="antrian-label">Silahkan menuju ke:</div>
+                            <span id="display-antrian">001</span>
+                            <div class="operator-label" id="display-operator-text">Operator 1 - Pendaftaran</div>
+                        </div>
+                        <div class="antrian-info">
+                            <p>Waktu Panggilan: <span id="display-time">-</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="antrian-history">
+                        <h4>Riwayat Panggilan Terakhir</h4>
+                        <div id="history-list">
+                            <!-- Riwayat akan ditampilkan di sini -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="operator-panel">
+                <h2><i class="fas fa-users"></i> Daftar Operator</h2>
+                <div class="operator-grid">
+                    <!-- Operator akan di-generate oleh JavaScript -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>SMA Negeri 1 Magetan &copy; 2023 | Sistem Antrian SPMB</p>
+            <p class="info">Tekan <strong>Panggil Antrian</strong> untuk memanggil nomor antrian berikutnya</p>
+        </footer>
+    </div>
+
+    <!-- Audio untuk panggilan suara -->
+    <audio id="audio-panggilan" preload="auto">
+        <source src="" type="audio/mp3">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Antrian SPMB - SMA Negeri 1 Magetan</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-section">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>SMA NEGERI 1 MAGETAN</h1>
+                        <h2>Sistem Antrian SPMB</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="datetime-section">
+                <div class="date-time">
+                    <div class="date" id="current-date">Selasa, 1 Januari 2024</div>
+                    <div class="time" id="current-time">00:00:00</div>
+                </div>
+                <div class="welcome-text">Selamat Datang di Sistem Antrian</div>
+            </div>
+        </header>
+
+        <main>
+            <section class="control-panel">
+                <h2><i class="fas fa-cogs"></i> Panel Kontrol Antrian</h2>
+                
+                <div class="antrian-control">
+                    <h3><i class="fas fa-sliders-h"></i> Pengaturan Antrian</h3>
+                    <div class="input-group">
+                        <label for="current-antrian"><i class="fas fa-ticket-alt"></i> Nomor Antrian Saat Ini</label>
+                        <div class="input-with-buttons">
+                            <input type="number" id="current-antrian" value="1" min="1">
+                            <div class="button-group">
+                                <button id="decrease-antrian" class="btn-small" title="Kurangi antrian"><i class="fas fa-minus"></i></button>
+                                <button id="increase-antrian" class="btn-small" title="Tambah antrian"><i class="fas fa-plus"></i></button>
+                                <button id="reset-antrian" class="btn-small" title="Reset ke nomor 1"><i class="fas fa-redo"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="operator-select"><i class="fas fa-user-tie"></i> Operator Tujuan</label>
+                        <select id="operator-select">
+                            <option value="1">Operator 1 - Pendaftaran</option>
+                            <option value="2">Operator 2 - Dokumen</option>
+                            <option value="3">Operator 3 - Wawancara</option>
+                            <option value="4">Operator 4 - Psikotes</option>
+                            <option value="5">Operator 5 - Kesehatan</option>
+                            <option value="6">Operator 6 - Pembayaran</option>
+                            <option value="7">Operator 7 - Pengumuman</option>
+                            <option value="8">Operator 8 - Bantuan</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-buttons">
+                        <button id="panggil-antrian" class="btn-primary">
+                            <i class="fas fa-bullhorn"></i> PANGGIL ANTRIAN
+                        </button>
+                        <button id="ulangi-panggilan" class="btn-secondary">
+                            <i class="fas fa-redo"></i> ULANGI PANGGILAN
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="antrian-display">
+                    <h3><i class="fas fa-desktop"></i> Antrian Saat Ini</h3>
+                    <div class="display-box">
+                        <div class="antrian-header">
+                            <div class="antrian-label">
+                                <i class="fas fa-arrow-right"></i> SILAHKAN MENUJU KE:
+                            </div>
+                        </div>
+                        <div class="antrian-number">
+                            <span id="display-antrian">001</span>
+                        </div>
+                        <div class="operator-display">
+                            <div class="operator-label" id="display-operator-text">Operator 1 - Pendaftaran</div>
+                        </div>
+                        <div class="antrian-info">
+                            <p><i class="far fa-clock"></i> Waktu Panggilan: <span id="display-time">-</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="antrian-history">
+                        <h4><i class="fas fa-history"></i> Riwayat Panggilan Terakhir</h4>
+                        <div id="history-list">
+                            <!-- Riwayat akan ditampilkan di sini -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="operator-panel">
+                <h2><i class="fas fa-users"></i> Daftar Operator</h2>
+                <div class="operator-grid">
+                    <!-- Operator akan di-generate oleh JavaScript -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p><i class="fas fa-school"></i> SMA Negeri 1 Magetan &copy; 2023 | Sistem Antrian SPMB</p>
+            <p class="info"><i class="fas fa-info-circle"></i> Tekan <strong>PANGGIL ANTRIAN</strong> untuk memanggil nomor antrian berikutnya | Gunakan <strong>SPASI</strong> untuk panggil cepat</p>
+        </footer>
+    </div>
+
+    <!-- Audio untuk panggilan suara -->
+    <audio id="audio-panggilan" preload="auto">
+        <source src="" type="audio/mp3">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+
+    <!-- Audio untuk suara pengumuman bandara -->
+    <audio id="audio-bell" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-bell-notification-933.mp3" type="audio/mp3">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
